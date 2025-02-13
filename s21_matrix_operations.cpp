@@ -4,7 +4,36 @@
 #include <utility>
 #include <stdexcept>
 
-bool S21Matrix::EqMatrix(const S21Matrix& other) {
+int S21Matrix::GetRows() const noexcept {
+  return rows_;
+}
+
+int S21Matrix::GetCols() const noexcept {
+  return cols_;
+}
+
+void S21Matrix::SetCols(const int& new_cols) {
+  if (new_cols < 0) {
+    throw std::logic_error("SetCols: Cols count must be positive");
+  }
+
+  if (cols_ != new_cols) {
+    ResizeAndCopyMatrix(rows_, new_cols);
+  }
+}
+
+void S21Matrix::SetRows(const int& new_rows) {
+  if (new_rows < 0) {
+    throw std::logic_error("SetRows: Rows count must be positive");
+  }
+
+  if (cols_ != new_rows) {
+    ResizeAndCopyMatrix(new_rows, cols_);
+  }
+}
+
+
+bool S21Matrix::EqMatrix(const S21Matrix& other) const {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
     return false;
   }
@@ -22,7 +51,7 @@ bool S21Matrix::EqMatrix(const S21Matrix& other) {
 
 void S21Matrix::SumMatrix(const S21Matrix& other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
-    throw std::logic_error("Matrix Size Error");
+    throw std::logic_error("SumMatrix: Matrix Size Error");
   }
 
   for (int i = 0; i < rows_; i++) {
@@ -34,7 +63,7 @@ void S21Matrix::SumMatrix(const S21Matrix& other) {
 
 void S21Matrix::SubMatrix(const S21Matrix& other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
-    throw std::logic_error("Matrix Size Error");
+    throw std::logic_error("SubMatrix: Matrix Size Error");
   }
 
   for (int i = 0; i < rows_; i++) {
@@ -53,19 +82,19 @@ void S21Matrix::MulNumber(const double num) {
 }
 
 void S21Matrix::MulMatrix(const S21Matrix& other) {
-  if (cols_ != other.rows_ || rows_ != other.cols_) {
-    throw std::logic_error("Matrix Size Error");
-  }
-
-  S21Matrix result(rows_, other.cols_);
-
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < other.cols_; j++) {
-      for (int k = 0; k < cols_; k++) {
-        matrix_[i][j] += matrix_[i][k] * other.matrix_[k][j];
-      }
+    if (cols_ != other.rows_) {
+        throw std::logic_error("MulMatrix: Matrix Size Error");
     }
-  }
 
-  *this = std::move(result);
+    S21Matrix result(rows_, other.cols_);
+
+    for (int i = 0; i < rows_; i++) {
+        for (int j = 0; j < other.cols_; j++) {
+            for (int k = 0; k < cols_; k++) {
+                result.matrix_[i][j] += matrix_[i][k] * other.matrix_[k][j];
+            }
+        }
+    }
+
+    *this = std::move(result);
 }

@@ -1,6 +1,7 @@
 #include "./s21_matrix_oop.h"
 #include <cmath>
 #include <utility>
+#include <stdexcept>
 
 S21Matrix S21Matrix::Transpose() const {
   S21Matrix result(cols_, rows_);
@@ -13,7 +14,7 @@ S21Matrix S21Matrix::Transpose() const {
   return result;
 }
 
-int S21Matrix::GetMaxInColumn(int column) const {
+int S21Matrix::GetMaxInColumn(const int& column) const noexcept {
   int max_index = column;
   for (int i = column + 1; i < rows_; i++) {
     if (std::abs(matrix_[max_index][column]) < std::abs(matrix_[i][column])) {
@@ -23,13 +24,11 @@ int S21Matrix::GetMaxInColumn(int column) const {
   return max_index;
 }
 
-void S21Matrix::SwapRows(int row_one, int row_two) {
-  for (int i = 0; i < cols_; i++) {
-    std::swap(matrix_[row_one][i], matrix_[row_two][i]);
-  }
+void S21Matrix::SwapRows(const int& row_one, const int& row_two) noexcept {
+  std::swap(matrix_[row_one], matrix_[row_two]);
 }
 
-void S21Matrix::TriangulateProcess(int curr_column) {
+void S21Matrix::TriangulateProcess(const int& curr_column) noexcept {
   for (int j = curr_column + 1; j < rows_; j++) {
     double factor =
         matrix_[j][curr_column] / matrix_[curr_column][curr_column];
@@ -39,13 +38,13 @@ void S21Matrix::TriangulateProcess(int curr_column) {
   }
 }
 
-int S21Matrix::TriangulateMatrix(int *swap_count) {
+int S21Matrix::TriangulateMatrix(int *swap_count) noexcept {
   int result_code = 0;
   for (int curr_column = 0; curr_column < rows_ && result_code == 0;
        curr_column++) {
     int max_in_column = GetMaxInColumn(curr_column);
 
-    if (std::abs(matrix_[max_in_column][curr_column]) < 1e-12) {
+    if (std::abs(matrix_[max_in_column][curr_column]) < 1e-7) {
       result_code = -1;
     } else {
       if (max_in_column != curr_column) {
@@ -58,7 +57,7 @@ int S21Matrix::TriangulateMatrix(int *swap_count) {
   return result_code;
 }
 
-S21Matrix S21Matrix::CreateMinor(const int skip_row, const int skip_column) const {
+S21Matrix S21Matrix::CreateMinor(const int& skip_row, const int& skip_column) const noexcept {
   S21Matrix result(rows_ - 1, cols_ - 1);
 
   for (int i = 0, row = 0; i < rows_; i++) {
@@ -81,7 +80,7 @@ S21Matrix S21Matrix::CreateMinor(const int skip_row, const int skip_column) cons
 
 double S21Matrix::Determinant() const {
   if (rows_ != cols_) {
-    throw "Matrix is not square";
+    throw std::logic_error("Matrix is not square");
   }
 
   S21Matrix temp(*this);
@@ -105,7 +104,7 @@ double S21Matrix::Determinant() const {
 
 S21Matrix S21Matrix::CalcComplements() const {
   if (rows_ != cols_) {
-    throw "Matrix is not square";
+    throw std::logic_error("Matrix is not square");
   }
   S21Matrix result(rows_, cols_);
   if (rows_ == 1) {
@@ -129,12 +128,12 @@ S21Matrix S21Matrix::CalcComplements() const {
 
 S21Matrix S21Matrix::InverseMatrix() const {
   if (rows_ != cols_) {
-    throw "Matrix is not square";
+    throw std::logic_error("Matrix is not square");
   }
 
   double det = Determinant();
-  if (std::abs(det) < 1e-16) {
-    throw "Determinan is zero";
+  if (std::abs(det) < 1e-7) {
+    throw std::logic_error("Determinan is zero");
   }
 
   det = 1.0 / det;

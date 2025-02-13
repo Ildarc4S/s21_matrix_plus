@@ -15,8 +15,8 @@ S21Matrix::S21Matrix()
     matrix_(nullptr) {}
 
 S21Matrix::S21Matrix(int rows, int cols) {
-  if (rows  < 1 || cols < 1) {
-    throw std::logic_error("Matrix size error");
+  if (rows  < 0 || cols < 0) {
+    throw std::logic_error("Constructor: Matrix size error");
   }
 
   matrix_ = new double* [rows];
