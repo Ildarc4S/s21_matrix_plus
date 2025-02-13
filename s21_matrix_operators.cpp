@@ -99,7 +99,7 @@ S21Matrix& S21Matrix::operator*=(const double& number) {
 
 double& S21Matrix::operator()(const int& row, const int& col) & {
   if (row < 0 || col < 0 || row >= rows_ || col >= cols_) {
-    throw std::logic_error("Matrix Size Error");
+    throw std::out_of_range("Matrix index out of range");
   }
 
   return matrix_[row][col];
@@ -107,7 +107,7 @@ double& S21Matrix::operator()(const int& row, const int& col) & {
 
 double S21Matrix::operator()(const int& row, const int& col) const & {
   if (row < 0 || col < 0 || row >= rows_ || col >= cols_) {
-    throw std::logic_error("Matrix Size Error");
+    throw std::out_of_range("Matrix index out of range");
   }
 
   return matrix_[row][col];
