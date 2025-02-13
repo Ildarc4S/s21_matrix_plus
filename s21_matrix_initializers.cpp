@@ -1,4 +1,5 @@
 #include "./s21_matrix_oop.h"
+#include <stdexcept>
 
 void S21Matrix::CopyMatrix(const S21Matrix& other) {
   for (int i = 0; i < rows_; i++) {
@@ -15,7 +16,7 @@ S21Matrix::S21Matrix()
 
 S21Matrix::S21Matrix(int rows, int cols) {
   if (rows  < 1 || cols < 1) {
-    throw "Matrix size error";
+    throw std::logic_error("Matrix size error");
   }
 
   matrix_ = new double* [rows];

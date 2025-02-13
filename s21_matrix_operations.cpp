@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <utility>
+#include <stdexcept>
 
 bool S21Matrix::EqMatrix(const S21Matrix& other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
@@ -21,7 +22,7 @@ bool S21Matrix::EqMatrix(const S21Matrix& other) {
 
 void S21Matrix::SumMatrix(const S21Matrix& other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
-    throw "Matrix Size Error";
+    throw std::logic_error("Matrix Size Error");
   }
 
   for (int i = 0; i < rows_; i++) {
@@ -33,7 +34,7 @@ void S21Matrix::SumMatrix(const S21Matrix& other) {
 
 void S21Matrix::SubMatrix(const S21Matrix& other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
-    throw "Matrix Size Error";
+    throw std::logic_error("Matrix Size Error");
   }
 
   for (int i = 0; i < rows_; i++) {
@@ -53,7 +54,7 @@ void S21Matrix::MulNumber(const double num) {
 
 void S21Matrix::MulMatrix(const S21Matrix& other) {
   if (cols_ != other.rows_ || rows_ != other.cols_) {
-    throw "Matrix Size Error";
+    throw std::logic_error("Matrix Size Error");
   }
 
   S21Matrix result(rows_, other.cols_);

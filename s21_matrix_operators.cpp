@@ -1,5 +1,6 @@
 #include "./s21_matrix_oop.h"
 #include <utility>
+#include <stdexcept>
 
 void S21Matrix::FreeMatrix() {
   for (int i = 0; i < rows_; i++) {
@@ -73,7 +74,7 @@ S21Matrix& S21Matrix::operator*=(const S21Matrix& other) {
 
 double& S21Matrix::operator()(int row, int col) & {
   if (row < 0 || col < 0 || row >= rows_ || col >= cols_) {
-    throw "Matrix Size Error";
+    throw std::logic_error("Matrix Size Error");
   }
 
   return matrix_[row][col];
@@ -81,7 +82,7 @@ double& S21Matrix::operator()(int row, int col) & {
 
 double S21Matrix::operator()(int row, int col) const & {
   if (row < 0 || col < 0 || row >= rows_ || col >= cols_) {
-    throw "Matrix Size Error";
+    throw std::logic_error("Matrix Size Error");
   }
 
   return matrix_[row][col];
