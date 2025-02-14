@@ -1,4 +1,4 @@
-#include "./tests.h"
+#include "./s21_tests.h"
 
 TEST(MatrixInitialization, DefaultConstructor) {
     S21Matrix m;

@@ -1,15 +1,5 @@
-#pragma once
+#include "./s21_tests.h"
 
-#include <gtest/gtest.h>
-#include <utility>
-#include <limits>
-#include <vector>
-
-#include <random>
-
-#include "./../s21_matrix_oop.h"
-
-namespace {
     S21Matrix CreateTestMatrix(const std::vector<std::vector<double>>& data) {
         S21Matrix m(data.size(), data.empty() ? 0 : data[0].size());
         for (size_t i = 0; i < data.size(); ++i) {
@@ -20,19 +10,19 @@ namespace {
         return m;
     }
 
-    S21Matrix CreateIdentity(int size) {
+S21Matrix CreateIdentity(int size) {
         S21Matrix m(size, size);
         for (int i = 0; i < size; ++i) {
             m(i, i) = 1.0;
         }
         return m;
     }
-    S21Matrix Identity(int size) {
+S21Matrix Identity(int size) {
     S21Matrix result(size, size);
     for (int i = 0; i < size; ++i) {
         result(i, i) = 1.0;
     }
-    return result;
+  return result;
 }
 
 
@@ -64,4 +54,4 @@ S21Matrix GenerateRandomInvertibleMatrix(int size) {
 
     return matrix;
 }
-}
+

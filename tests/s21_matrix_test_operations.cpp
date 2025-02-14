@@ -1,4 +1,4 @@
-#include "./tests.h"
+#include "./s21_tests.h"
 //  ******** SUB MATRIX ******** //
 
 TEST(MatrixSub, ValidSubtraction) {

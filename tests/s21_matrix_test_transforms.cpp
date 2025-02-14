@@ -1,4 +1,4 @@
-#include "./tests.h"
+#include "./s21_tests.h"
 
 // *************** Transpose  *************** //
 
@@ -342,7 +342,9 @@ TEST(InverseTest, Large19x19) {
     for (int i = 0; i < 19; ++i) {
         EXPECT_NEAR(product(i,i), 1.0, 1e-9);
         for (int j = 0; j < 19; ++j) {
-            if (i != j) EXPECT_NEAR(product(i,j), 0.0, 1e-9);
+            if (i != j) {
+              EXPECT_NEAR(product(i,j), 0.0, 1e-9);
+            }
         }
     }
 }
